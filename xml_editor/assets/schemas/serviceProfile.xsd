@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+<xs:element name="resources">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="application" minOccurs="1" maxOccurs="1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="serviceProfile" minOccurs="1" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:choice>
+                  <xs:sequence>
+                    <xs:group ref="supportedTransportsGroup" minOccurs="1" maxOccurs="1"/>
+                    <xs:group ref="serviceChannelGroup" minOccurs="1" maxOccurs="unbounded"/>
+                  </xs:sequence>
+                  <xs:sequence>
+                    <xs:group ref="serviceChannelGroup" minOccurs="1" maxOccurs="unbounded"/>
+                    <xs:group ref="supportedTransportsGroup" minOccurs="1" maxOccurs="1"/>
+                    <xs:group ref="serviceChannelGroup" minOccurs="0" maxOccurs="unbounded"/>
+                  </xs:sequence>
+                </xs:choice>
+                <xs:attribute name="role" type="roleType" use="required"/>
+                <xs:attribute name="name" type="xs:string" use="required"/>
+                <xs:attribute name="id" type="xs:string" use="required"/>
+                <xs:attribute name="version" type="xs:string" use="required"/>
+                <xs:attribute name="serviceLimit" type="serviceLimitType" use="optional"/>
+                <xs:attribute name="serviceTimeout" type="xs:unsignedShort" use="optional"/>
+                <xs:attribute name="autoLaunchAppId" type="xs:string" use="optional"/>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name="name" type="xs:string" use="required"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:group name="supportedTransportsGroup">
+  <xs:sequence>
+    <xs:element name="supportedTransports">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="transport" minOccurs="1" maxOccurs="unbounded">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:string">
+                  <xs:attribute name="type" type="transportType" use="required"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+  </xs:sequence>
+</xs:group>
+
+<xs:group name="serviceChannelGroup">
+  <xs:sequence>
+    <xs:element name="serviceChannel">
+      <xs:complexType>
+        <xs:simpleContent>
+          <xs:extension base="xs:string">
+            <xs:attribute name="id" type="xs:unsignedShort" use="required"/>
+            <xs:attribute name="dataRate" type="dataRateType" use="required"/>
+            <xs:attribute name="priority" type="priorityType" use="required"/>
+            <xs:attribute name="reliability" type="reliabilityType" use="required"/>
+          </xs:extension>
+        </xs:simpleContent>
+      </xs:complexType>
+    </xs:element>
+  </xs:sequence>
+</xs:group>
+
+<xs:simpleType name="roleType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="PROVIDER"/>
+    <xs:enumeration value="CONSUMER"/>
+    <xs:enumeration value="provider"/>
+    <xs:enumeration value="consumer"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="serviceLimitType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="ANY"/>
+    <xs:enumeration value="ONE_ACCESSORY"/>
+    <xs:enumeration value="ONE_PEERAGENT"/>
+    <xs:enumeration value="any"/>
+    <xs:enumeration value="one_accessory"/>
+    <xs:enumeration value="one_peeragent"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="transportType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="TRANSPORT_WIFI"/>
+    <xs:enumeration value="TRANSPORT_BT"/>
+    <xs:enumeration value="TRANSPORT_BLE"/>
+    <xs:enumeration value="TRANSPORT_USB"/>
+    <xs:enumeration value="transport_wifi"/>
+    <xs:enumeration value="transport_bt"/>
+    <xs:enumeration value="transport_ble"/>
+    <xs:enumeration value="transport_usb"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="dataRateType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="LOW"/>
+    <xs:enumeration value="HIGH"/>
+    <xs:enumeration value="low"/>
+    <xs:enumeration value="high"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="priorityType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="LOW"/>
+    <xs:enumeration value="MEDIUM"/>
+    <xs:enumeration value="HIGH"/>
+    <xs:enumeration value="low"/>
+    <xs:enumeration value="medium"/>
+    <xs:enumeration value="high"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="reliabilityType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="ENABLE"/>
+    <xs:enumeration value="DISABLE"/>
+    <xs:enumeration value="enable"/>
+    <xs:enumeration value="disable"/>
+  </xs:restriction>
+</xs:simpleType>
+
+</xs:schema>
